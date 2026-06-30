@@ -13,7 +13,6 @@ from qdrant_client.models import (
     FusionQuery,
     Fusion,
 )
-from rag.embedder import embed
 from config import settings
 
 client = QdrantClient(
@@ -25,6 +24,8 @@ COLLECTION = settings.qdrant_collection
 
 
 def hybrid_search(query: str, top_k: int = 5) -> list[dict]:
+    from rag.embedder import embed
+
     # 1. Embed câu hỏi → dense + sparse
     output = embed([query])
     dense_vec = output["dense_vecs"][0].tolist()

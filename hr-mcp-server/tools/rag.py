@@ -3,7 +3,10 @@ from rag.hybrid_search import hybrid_search
 
 
 def rag_query(query: str, top_k: int = 5) -> dict:
-    results = hybrid_search(query, top_k)
+    try:
+        results = hybrid_search(query, top_k)
+    except Exception as exc:
+        return {"context": "", "sources": [], "error": str(exc)}
 
     if not results:
         return {"context": "", "sources": []}

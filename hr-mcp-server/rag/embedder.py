@@ -1,12 +1,18 @@
 # rag/embedder.py
-from FlagEmbedding import BGEM3FlagModel
-
 # Load model 1 lần duy nhất khi import — tránh load lại mỗi lần gọi
 _model = None
+
 
 def get_model():
     global _model
     if _model is None:
+        try:
+            from FlagEmbedding import BGEM3FlagModel
+        except Exception as exc:
+            raise RuntimeError(
+                "RAG dependencies are not available. Please install FlagEmbedding and a compatible PyTorch runtime."
+            ) from exc
+
         print("Đang load model bge-m3")
         _model = BGEM3FlagModel("BAAI/bge-m3", use_fp16=True)
         print("Load model xong!")

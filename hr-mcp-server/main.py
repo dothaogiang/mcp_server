@@ -106,7 +106,13 @@ if __name__ == "__main__":
 
     # Preload model bge-m3 lúc khởi động thay vì lúc có request rag_query
     # đầu tiên — tránh request đầu tiên bị timeout vì phải load model.
+    # Nếu môi trường không có runtime phù hợp thì vẫn cho server khởi động
+    # và trả lỗi rõ ràng khi gọi rag_query.
     print("Đang preload model bge-m3...")
-    get_model()
+    try:
+        get_model()
+    except Exception as exc:
+        print(f"Cảnh báo: không preload được model RAG: {exc}")
+        print("Server vẫn tiếp tục khởi động, nhưng rag_query sẽ trả lỗi cho đến khi môi trường được sửa.")
 
     uvicorn.run(build_app(), host="0.0.0.0", port=8000)
