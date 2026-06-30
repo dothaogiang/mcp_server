@@ -10,6 +10,8 @@ from tools.file import get_file as _get_file
 from tools.rag import rag_query as _rag_query
 from config import settings
 
+print(f"[DEBUG] MCP_API_KEY server đang dùng: '{settings.mcp_api_key}'")
+print(f"[DEBUG] Server đang chạy từ thư mục: {__file__}")
 mcp = FastMCP("HR OCR MCP Server")
 
 
